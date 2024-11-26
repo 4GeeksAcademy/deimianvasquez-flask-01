@@ -117,14 +117,15 @@ def update_human(theid):
         }, 500
 
 
-@app.route("/person/<int:theid>", methods=["DELETE"])
+@app.route("/person/<string:theid>", methods=["DELETE"]) 
 def delete_one_human(theid):
     try:
+        print(type(theid))
         global humans
-        result = list(filter(lambda item: item["id"] == theid, humans))
+        result = list(filter(lambda item: str(item["id"]) == theid, humans))
         print(result)
         if result:
-            new_human = list(filter(lambda item: item["id"] != theid, humans))
+            new_human = list(filter(lambda item: str(item["id"]) != theid, humans))
             humans = new_human
             return jsonify([]), 204
         else:
