@@ -120,17 +120,19 @@ def update_human(theid):
 @app.route("/person/<int:theid>", methods=["DELETE"])
 def delete_one_human(theid):
     try:
+        global humans
         result = list(filter(lambda item: item["id"] == theid, humans))
-
+        print(result)
         if result:
             new_human = list(filter(lambda item: item["id"] != theid, humans))
             humans = new_human
-            return jsonify([]), 201
+            return jsonify([]), 204
         else:
             return jsonify({"message":"user not found"}), 404
-            
-        
+      
+                
     except Exception as error:
+        print(error)
         return {
            "message": "Tenemos un error en nuestra plataforma, si continua cominuquese a soporte"
         }, 500
