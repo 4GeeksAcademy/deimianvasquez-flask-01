@@ -120,20 +120,23 @@ def update_human(theid):
 @app.route("/person/<string:theid>", methods=["DELETE"]) 
 def delete_one_human(theid):
     try:
-        print(type(theid))
-        global humans
-        result = list(filter(lambda item: str(item["id"]) == theid, humans))
-        print(result)
-        if result:
-            new_human = list(filter(lambda item: str(item["id"]) != theid, humans))
-            humans = new_human
-            return jsonify([]), 204
-        else:
-            return jsonify({"message":"user not found"}), 404
-      
-                
+        for item in humans:
+            if item["id"] == int(theid):
+                humans.remove(item)
+                return jsonify([]), 204
+        return jsonify({"message":"user not found"}), 404
+
+        # global humans
+        # result = list(filter(lambda item: str(item["id"]) == theid, humans)) # Busco si el usuario existe
+        # if result:
+        #     new_human = list(filter(lambda item: str(item["id"]) != theid, humans))
+        #     humans = new_human
+        #     return jsonify([]), 204
+        # else:
+        #     return jsonify({"message":"user not found"}), 404
+
     except Exception as error:
-        print(error)
+        # print(error)
         return {
            "message": "Tenemos un error en nuestra plataforma, si continua cominuquese a soporte"
         }, 500
